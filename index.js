@@ -33,6 +33,7 @@ function logicGen(num, array = []) {
 
 function stringParser(string = "") {
   string = string.toUpperCase();
+  let stringAux = string.toUpperCase();
 
   while (string.indexOf(".") != -1) string = string.replace(".", "&&");
 
@@ -42,7 +43,7 @@ function stringParser(string = "") {
 
   while (string.indexOf(" ") != -1) string = string.replace(" ", "");
 
-  return string;
+  return {string, stringAux};
 }
 
 function stringToVars(string = "") {
@@ -74,37 +75,38 @@ function printLine(num) {
   console.log(string);
 }
 
-function printResults(logicString, logicVars, logicArrays, results) {
-  printLine(logicVars.length * 4 + logicString.length + 4);
+function printResults(logicStringAux, logicVars, logicArrays, results) {
+  printLine(logicVars.length * 4 + logicStringAux.length + 4);
   let str = "|";
   for (let i = 0; i < logicVars.length; i++) str += ` ${logicVars[i]} |`;
-  str += ` ${logicString} |`;
+  str += ` ${logicStringAux} |`;
   console.log(str);
-  printLine(logicVars.length * 4 + logicString.length + 4);
+  printLine(logicVars.length * 4 + logicStringAux.length + 4);
 
   for (let j = 0; j < logicArrays.length; j++) {
     str = "|";
     for (let i = 0; i < logicVars.length; i++) str += ` ${logicArrays[j][i]} |`;
 
     let str2 = "";
-    for (let k = 0; k < logicString.length - 1; k++) {
+    for (let k = 0; k < logicStringAux.length - 1; k++) {
       str2 += " ";
     }
 
-    let index = Math.floor(logicString.length / 2);
+    let index = Math.floor(logicStringAux.length / 2);
     str2 =
       str2.substring(0, index) + (results[j] ? 1 : 0) + str2.substring(index);
 
     str += ` ${str2} |`;
 
     console.log(str);
-    printLine(logicVars.length * 4 + logicString.length + 4);
+    printLine(logicVars.length * 4 + logicStringAux.length + 4);
   }
 }
 
 function logicAnalyzer(string = "") {
   globalLogic = [];
-  let logicString = stringParser(string);
+  let logicString = stringParser(string).string;
+  let logicStringAux = stringParser(string).stringAux;
   let logicVars = stringToVars(string);
   logicGen(logicVars.length);
   let logicArrays = globalLogic;
@@ -119,5 +121,5 @@ function logicAnalyzer(string = "") {
     results.push(eval(logicString));
   });
 
-  printResults(logicString, logicVars, logicArrays, results);
+  printResults(logicStringAux, logicVars, logicArrays, results);
 }
