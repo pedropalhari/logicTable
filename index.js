@@ -41,6 +41,12 @@ function stringParser(string = "") {
 
   while (string.indexOf("~") != -1) string = string.replace("~", "!");
 
+  while (string.indexOf("AND") != -1) string = string.replace("AND", "&&");
+  
+  while (string.indexOf("OR") != -1) string = string.replace("OR", "||");
+
+  while (string.indexOf("NOT") != -1) string = string.replace("NOT", "!");
+
   while (string.indexOf(" ") != -1) string = string.replace(" ", "");
 
   return {string, stringAux};
@@ -107,7 +113,7 @@ function logicAnalyzer(string = "") {
   globalLogic = [];
   let logicString = stringParser(string).string;
   let logicStringAux = stringParser(string).stringAux;
-  let logicVars = stringToVars(string);
+  let logicVars = stringToVars(logicString);
   logicGen(logicVars.length);
   let logicArrays = globalLogic;
   let results = [];
