@@ -7,11 +7,11 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-(function q(){
+(function q() {
   rl.question("> ", answer => {
     logicAnalyzer(answer);
-		q();
-	});
+    q();
+  });
 })();
 
 function logicGen(num, array = []) {
@@ -42,14 +42,14 @@ function stringParser(string = "") {
   while (string.indexOf("~") != -1) string = string.replace("~", "!");
 
   while (string.indexOf("AND") != -1) string = string.replace("AND", "&&");
-  
+
   while (string.indexOf("OR") != -1) string = string.replace("OR", "||");
 
   while (string.indexOf("NOT") != -1) string = string.replace("NOT", "!");
 
   while (string.indexOf(" ") != -1) string = string.replace(" ", "");
 
-  return {string, stringAux};
+  return { string, stringAux };
 }
 
 function stringToVars(string = "") {
@@ -82,6 +82,8 @@ function printLine(num) {
 }
 
 function printResults(logicStringAux, logicVars, logicArrays, results) {
+  let middleStringIndex = Math.floor(logicStringAux.length / 2);
+
   printLine(logicVars.length * 4 + logicStringAux.length + 4);
   let str = "|";
   for (let i = 0; i < logicVars.length; i++) str += ` ${logicVars[i]} |`;
@@ -98,9 +100,8 @@ function printResults(logicStringAux, logicVars, logicArrays, results) {
       str2 += " ";
     }
 
-    let index = Math.floor(logicStringAux.length / 2);
     str2 =
-      str2.substring(0, index) + (results[j] ? 1 : 0) + str2.substring(index);
+      str2.substring(0, middleStringIndex) + (results[j] ? 1 : 0) + str2.substring(middleStringIndex);
 
     str += ` ${str2} |`;
 
